@@ -40,11 +40,11 @@
 - find_active() — найти активные курсы
 
 ### Сортировка
-sort(key, reverse=False) — универсальная сортировка
-sort_by_title() — по названию
-sort_by_teacher() — по преподавателю
-sort_by_hours() — по количеству часов
-sort_by_students_count() — по количеству студентов
+- sort(key, reverse=False) — универсальная сортировка
+- sort_by_title() — по названию
+- sort_by_teacher() — по преподавателю
+- sort_by_hours() — по количеству часов
+- sort_by_students_count() — по количеству студентов
 
 ### Фильтрация (логические операции)
 #### Методы возвращают новую коллекцию:
