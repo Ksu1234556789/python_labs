@@ -140,11 +140,12 @@ def main():
 
     # ========== ИТОГОВАЯ ИНФОРМАЦИЯ ==========
     print("\n" + "=" * 70)
-    print("ИТОГ:")
+    print('КОЛЛЕКЦИЯ ПОСЛЕ ВСЕХ ИЗМЕНЕНИЙ')
     print("=" * 70)
-    print(f"  Всего курсов в коллекции: {len(collection)}")
+    print(f"\n  Всего курсов в коллекции: {len(collection)}")
     print(f"  Активных курсов: {len(collection.get_active_courses())}")
     print(f"  Закрытых курсов: {len(collection.get_closed_courses())}")
+    print(collection)
 
 
 
