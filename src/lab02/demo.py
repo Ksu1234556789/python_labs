@@ -5,7 +5,7 @@ from collection import OnlineSchool
 def main():
     print("\n" + "=" * 70)
     print("ЛАБОРАТОРНАЯ РАБОТА №2")
-    print("Коллекция объектов Course (оценка 5)")
+    print("Коллекция объектов Course (OnlineSchool)")
     print("=" * 70)
 
     # ========== ПОДГОТОВКА: создаём курсы ==========
@@ -20,7 +20,7 @@ def main():
     for course in [course1, course2, course3, course4, course5, course6]:
         collection.add(course)
 
-    print("\n✓ Создано 6 курсов и добавлено в коллекцию\n")
+    print("\n Создано 6 курсов и добавлено в коллекцию\n")
 
     # ========== 1. ИНДЕКСАЦИЯ ==========
     print("=" * 70)
@@ -99,7 +99,7 @@ def main():
     print("=" * 70)
 
     # СЦЕНАРИЙ 1: Поиск курсов преподавателя
-    print("\n📚 СЦЕНАРИЙ 1: Найти все курсы преподавателя")
+    print("\n СЦЕНАРИЙ 1: Найти все курсы преподавателя")
     teacher_name = "Иванов И.И."
     teacher_courses = collection.find_by_teacher(teacher_name)
     print(f"Курсы преподавателя {teacher_name}:")
@@ -107,7 +107,7 @@ def main():
         print(f"  • {course.title} ({course.hours}ч, студентов: {course.students_count})")
 
     # СЦЕНАРИЙ 2: Формирование расписания (только активные курсы, отсортированные по часам)
-    print("\n📅 СЦЕНАРИЙ 2: Формирование расписания (активные курсы, по убыванию часов)")
+    print("\n СЦЕНАРИЙ 2: Формирование расписания (активные курсы, по убыванию часов)")
     schedule = collection.get_active_courses()
     schedule.sort(key=lambda c: c.hours, reverse=True)
     print("Расписание активных курсов (от длительных к коротким):")
@@ -115,7 +115,7 @@ def main():
         print(f"  {i}. {course.title} — {course.hours} часов, преподаватель: {course.teacher}")
 
     # СЦЕНАРИЙ 3: Поиск курсов для записи (есть свободные места)
-    print("\n🎓 СЦЕНАРИЙ 3: Поиск курсов для записи студентов (есть свободные места)")
+    print("\n СЦЕНАРИЙ 3: Поиск курсов для записи студентов (есть свободные места)")
     print("Курсы, на которые можно записаться:")
     found_any = False
     for course in collection:
@@ -128,7 +128,7 @@ def main():
         print("  Нет доступных курсов для записи")
 
     # СЦЕНАРИЙ 4 (дополнительный): Запись студента на курс
-    print("\n📝 СЦЕНАРИЙ 4: Запись студента на курс")
+    print("\n СЦЕНАРИЙ 4: Запись студента на курс")
     target_course = collection.find_by_title("Python для начинающих")
     if target_course and target_course.active:
         old_count = target_course.students_count
@@ -145,7 +145,7 @@ def main():
     print(f"  Всего курсов в коллекции: {len(collection)}")
     print(f"  Активных курсов: {len(collection.get_active_courses())}")
     print(f"  Закрытых курсов: {len(collection.get_closed_courses())}")
-    print("\n✓ Демонстрация завершена")
+
 
 
 if __name__ == "__main__":
