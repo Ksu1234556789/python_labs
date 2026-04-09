@@ -1,5 +1,5 @@
 from models import OnlineCourse, OfflineCourse
-from collection import OnlineSchool
+#from collection import OnlineSchool
 
 
 def main():
