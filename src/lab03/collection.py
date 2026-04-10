@@ -1,19 +1,20 @@
+"""
+Коллекция для хранения курсов (из ЛР-2) с расширенными методами для ЛР-3
+"""
+from typing import Optional, List, Callable, Type, TypeVar
+from base import Course
 
-import sys
-import os
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
+T = TypeVar('T', bound=Course)
 
-from typing import Optional, List, Callable
-from src.lab02.model import Course
-
-# from model import Course
 
 class OnlineSchool:
+    """Коллекция курсов онлайн-школы"""
+    
     def __init__(self):
         self._items: List[Course] = []
     
     def add(self, course: Course) -> None:
-
+        """Добавить курс в коллекцию"""
         if not isinstance(course, Course):
             raise TypeError(f"Можно добавлять только объекты Course, получен {type(course).__name__}")
         
@@ -42,7 +43,6 @@ class OnlineSchool:
         """Вернуть список всех курсов"""
         return self._items.copy()
     
-    
     def find_by_title(self, title: str) -> Optional[Course]:
         """Поиск курса по названию (первое совпадение)"""
         for course in self._items:
@@ -62,6 +62,80 @@ class OnlineSchool:
         """Найти все активные курсы"""
         return [course for course in self._items if course.active]
     
+    # ========== НОВЫЕ МЕТОДЫ ДЛЯ ЛР-3 ==========
+    
+    def get_by_type(self, course_type: Type[T]) -> List[T]:
+        """
+        Получить все курсы определённого типа
+        
+        Args:
+            course_type: Класс курса (например, ProgrammingCourse)
+        
+        Returns:
+            Список курсов указанного типа
+        """
+        return [course for course in self._items if isinstance(course, course_type)]
+    
+    def get_programming_courses(self):
+        """Получить все курсы программирования"""
+        from models import ProgrammingCourse
+        return self.get_by_type(ProgrammingCourse)
+    
+    def get_language_courses(self):
+        """Получить все языковые курсы"""
+        from models import LanguageCourse
+        return self.get_by_type(LanguageCourse)
+    
+    def get_business_courses(self):
+        """Получить все бизнес-курсы"""
+        from models import BusinessCourse
+        return self.get_by_type(BusinessCourse)
+    
+    def filter_by_type(self, course_type: Type[T]) -> 'OnlineSchool':
+        """
+        Создать новую коллекцию, содержащую только курсы определённого типа
+        
+        Args:
+            course_type: Класс курса для фильтрации
+        
+        Returns:
+            Новая коллекция OnlineSchool
+        """
+        new_collection = OnlineSchool()
+        for course in self._items:
+            if isinstance(course, course_type):
+                new_collection.add(course)
+        return new_collection
+    
+    def get_statistics_by_type(self) -> dict:
+        """
+        Получить статистику по типам курсов
+        
+        Returns:
+            Словарь с количеством и средней стоимостью по каждому типу
+        """
+        from models import ProgrammingCourse, LanguageCourse, BusinessCourse
+        
+        stats = {}
+        
+        for course_type, type_name in [
+            (ProgrammingCourse, "Programming"),
+            (LanguageCourse, "Language"),
+            (BusinessCourse, "Business")
+        ]:
+            courses = self.get_by_type(course_type)
+            if courses:
+                avg_cost = sum(c.calculate() for c in courses) / len(courses)
+                avg_students = sum(c.students_count for c in courses) / len(courses)
+                stats[type_name] = {
+                    "count": len(courses),
+                    "avg_cost": avg_cost,
+                    "avg_students": avg_students
+                }
+        
+        return stats
+    
+    # ==========================================
     
     def __len__(self) -> int:
         """Возвращает количество курсов в коллекции"""
@@ -70,7 +144,6 @@ class OnlineSchool:
     def __iter__(self):
         """Позволяет итерироваться по коллекции"""
         return iter(self._items)
-    
     
     def __getitem__(self, index: int) -> Course:
         """Поддержка индексации collection[index]"""
@@ -86,13 +159,17 @@ class OnlineSchool:
         Примеры:
             collection.sort(key=lambda c: c.title)  # по названию
             collection.sort(key=lambda c: c.hours)  # по часам
-            collection.sort(key=lambda c: c.students_count)  # по количеству студентов
+            collection.sort(key=lambda c: c.calculate())  # по стоимости
         """
         if key is None:
             # Сортировка по умолчанию: по названию, затем по преподавателю
             self._items.sort(key=lambda c: (c.title, c.teacher), reverse=reverse)
         else:
             self._items.sort(key=key, reverse=reverse)
+    
+    def sort_by_cost(self, reverse: bool = False) -> None:
+        """Сортировка по стоимости курса"""
+        self.sort(key=lambda c: c.calculate(), reverse=reverse)
     
     def sort_by_title(self, reverse: bool = False) -> None:
         """Сортировка по названию курса"""
@@ -109,7 +186,6 @@ class OnlineSchool:
     def sort_by_students_count(self, reverse: bool = False) -> None:
         """Сортировка по количеству студентов"""
         self.sort(key=lambda c: c.students_count, reverse=reverse)
-    
     
     def get_active_courses(self) -> 'OnlineSchool':
         """Вернуть новую коллекцию только с активными курсами"""
@@ -142,7 +218,6 @@ class OnlineSchool:
             if min_hours <= course.hours <= max_hours:
                 new_collection.add(course)
         return new_collection
-    
     
     def clear(self) -> None:
         """Очистить коллекцию"""

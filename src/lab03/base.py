@@ -1,7 +1,11 @@
-from typing import Any
+"""
+Базовый класс курса (из ЛР-1)
+"""
+from abc import ABC, abstractmethod
 
 
-class Course:
+class Course(ABC):
+    """Базовый абстрактный класс курса"""
     MAX_STUDENTS = 30
     MIN_HOURS = 16
     existing_courses = set()
@@ -24,7 +28,7 @@ class Course:
 
         Course.existing_courses.add(key)
 
-    # ===== ВАЛИДАЦИЯ =====
+    # Валидация
     def _validate_title(self, value):
         if not isinstance(value, str):
             raise TypeError("Название курса должно быть строкой")
@@ -49,7 +53,7 @@ class Course:
         if not (0 <= value <= self.MAX_STUDENTS):
             raise ValueError(f"Количество студентов должно быть от 0 до {self.MAX_STUDENTS}")
 
-    # ===== PROPERTIES =====
+    # Properties
     @property
     def title(self):
         return self._title
@@ -75,7 +79,7 @@ class Course:
     def active(self):
         return self._active
 
-    # ===== БИЗНЕС-МЕТОДЫ =====
+    # Бизнес-методы
     def add_student(self):
         if not self._active:
             raise RuntimeError("Нельзя добавить студента: курс закрыт")
@@ -94,23 +98,40 @@ class Course:
     def open(self):
         self._active = True
 
-    # ===== ВАЖНО: ОБЩИЙ ИНТЕРФЕЙС (для ЛР3) =====
-    def calculate(self) -> Any:
-        """Базовый расчет (будет переопределён)"""
-        return self._hours
+    # Абстрактные методы (общий интерфейс)
+    @abstractmethod
+    def process(self):
+        """Общий интерфейс поведения (полиморфизм)"""
+        pass
 
-    # ===== MAGIC =====
+    @abstractmethod
+    def calculate(self):
+        """Расчёт стоимости курса (полиморфный метод)"""
+        pass
+
+    # Magic methods
     def __str__(self):
         status = "активен" if self._active else "закрыт"
         return (
-            f"Курс '{self._title}', преподаватель: {self._teacher}, "
-            f"часы: {self._hours}, студентов: {self._students_count}, статус: {status}"
+            f"Курс '{self._title}', "
+            f"преподаватель: {self._teacher}, "
+            f"часы: {self._hours}, "
+            f"студентов: {self._students_count}/{self.MAX_STUDENTS}, "
+            f"статус: {status}"
         )
 
     def __repr__(self):
-        return f"Course('{self._title}', '{self._teacher}', {self._hours}, {self._students_count})"
+        return (
+            f"Course(title='{self._title}', teacher='{self._teacher}', "
+            f"hours={self._hours}, students_count={self._students_count})"
+        )
 
     def __eq__(self, other):
         if not isinstance(other, Course):
             return NotImplemented
         return self._title == other._title and self._teacher == other._teacher
+
+    def __del__(self):
+        """Удаление курса из множества существующих при уничтожении объекта"""
+        key = (self._title, self._teacher)
+        Course.existing_courses.discard(key)
