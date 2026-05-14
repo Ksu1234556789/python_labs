@@ -193,7 +193,7 @@ def scenario_5_chain():
     
     # Шаг 2: Сортировка — по стоимости
     sorted_collection = filtered.sort_by(st.by_cost)
-    print_collection(sorted_collection, "Шаг 2: sort_by(by_cost)")
+    print_collection(sorted_collection, "Шаг 2: sort_by(by_cost)") 
     
     # Шаг 3: Применение — добавляем студентов через UpgradeStrategy
     upgrade = st.UpgradeStrategy(students_to_add=3)
