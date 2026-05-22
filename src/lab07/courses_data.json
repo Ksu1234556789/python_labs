@@ -1,0 +1,56 @@
+[
+  {
+    "type": "LanguageCourse",
+    "title": "Английский Начальный",
+    "teacher": "Ложкина Амина",
+    "hours": 20,
+    "students_count": 25,
+    "language": "Английский",
+    "level": "A1"
+  },
+  {
+    "type": "BusinessCourse",
+    "title": "Менеджмент",
+    "teacher": "Паулин Иван",
+    "hours": 21,
+    "students_count": 20,
+    "certificate": true,
+    "company_partner": "Т-Банк"
+  },
+  {
+    "type": "ProgrammingCourse",
+    "title": "Python Основы",
+    "teacher": "Петров Пётр",
+    "hours": 40,
+    "students_count": 18,
+    "language": "Python",
+    "project_count": 3
+  },
+  {
+    "type": "ProgrammingCourse",
+    "title": "Java Разработка",
+    "teacher": "Сидоров Алексей",
+    "hours": 60,
+    "students_count": 15,
+    "language": "Java",
+    "project_count": 5
+  },
+  {
+    "type": "LanguageCourse",
+    "title": "Немецкий Средний",
+    "teacher": "Шмидт Ольга",
+    "hours": 50,
+    "students_count": 12,
+    "language": "Немецкий",
+    "level": "B1"
+  },
+  {
+    "type": "BusinessCourse",
+    "title": "Управление Проектами",
+    "teacher": "Козлов Игорь",
+    "hours": 32,
+    "students_count": 22,
+    "certificate": false,
+    "company_partner": ""
+  }
+]
